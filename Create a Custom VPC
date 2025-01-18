@@ -1,0 +1,91 @@
+Sure, let's dive into the detailed steps for each part of the setup:
+
+### 1. Create a Custom VPC:
+
+1.1. Go to the AWS Management Console and navigate to the VPC Dashboard.
+
+1.2. Click on "Create VPC".
+																	 
+1.3. Fill in the following details:
+   - **Name tag**: Enter a name for your VPC (e.g., MyCustomVPC).
+   - **CIDR block**: Define the IP address range for your VPC (e.g., 10.0.0.0/16).
+   - **Tenancy**: Choose the default tenancy unless you have specific requirements.
+   
+1.4. Click "Create".
+
+### 2. Launch EC2 Instance:
+
+2.1. Navigate to the EC2 Dashboard.
+
+2.2. Click on "Launch Instance".
+
+2.3. Choose an Amazon Machine Image (AMI) (e.g., Amazon Linux 2).
+
+2.4. Select an instance type based on your requirements.
+
+2.5. Configure instance details:
+   - **Network**: Select the VPC you created earlier.
+   - **Subnet**: Choose a subnet within your VPC (preferably a public subnet for web servers).
+   - **Auto-assign Public IP**: Enable for instances accessible from the internet.
+   - Configure other settings as per your requirements.
+
+2.6. Add storage, tags, and configure security groups (allow HTTP and HTTPS traffic from anywhere).
+
+2.7. Review and launch the instance.
+
+### 3. Set Up Application Load Balancer (ALB):
+
+3.1. Navigate to the EC2 Dashboard and click on "Load Balancers" under the "Load Balancing" section.
+
+3.2. Click on "Create Load Balancer" and choose "Application Load Balancer".
+
+3.3. Configure the load balancer settings:
+   - **Name**: Enter a name for your ALB.
+   - **Scheme**: Choose "internet-facing" if your website needs to be accessible from the internet.
+   - **Listeners**: Configure HTTP (port 80) and HTTPS (port 443) listeners.
+   - **Availability Zones**: Select the subnets across availability zones.
+   - Configure other settings as needed.
+
+3.4. Configure security settings and add your EC2 instance(s) as targets.
+
+3.5. Review and create the ALB.
+
+### 4. Obtain a Domain Name and Set Up Route 53:
+
+4.1. Go to the Route 53 Dashboard.
+
+4.2. Create a hosted zone for your domain name (e.g., example.com).
+
+4.3. Note down the name servers provided by Route 53.
+
+4.4. Update your domain registrar's DNS settings to use the Route 53 name servers.
+
+### 5. Configure Route 53 Records:
+
+5.1. Within your hosted zone, create an "A" record for your website domain and point it to the ALB's DNS name.
+
+5.2. Create an "Alias" record pointing your domain name to the ALB.
+
+### 6. Obtain and Configure AWS Free SSL Certificate:
+
+6.1. Go to the AWS Certificate Manager (ACM) Dashboard.
+
+6.2. Request a new SSL/TLS certificate for your domain name. Choose "Request a public certificate" and enter your domain name(s).
+
+6.3. Follow the validation steps to validate your domain ownership.
+
+6.4. Once the certificate is issued, associate it with the ALB listener(s) for HTTPS.
+
+### 7. Update Security Groups and NACLs:
+
+7.1. Ensure that security groups associated with your EC2 instance(s) and ALB allow necessary traffic (HTTP/HTTPS) from the internet.
+
+7.2. Make sure network ACLs (NACLs) allow traffic required for your setup.
+
+### 8. Test Your Setup:
+
+8.1. Once everything is configured, test your website by accessing it via the domain name.
+
+8.2. Ensure that traffic is routed through the ALB and the SSL certificate is applied correctly.
+
+That's the detailed setup process for setting up a custom VPC, EC2 instance, ALB, Route 53, and SSL certificate for hosting a website on AWS. Let me know if you need further clarification on any step!
